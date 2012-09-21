@@ -1,0 +1,9 @@
+{[
+  {
+  "url": "http://coord.info/map?ll=$$LAT$$,$$LON$$&z=$$ZOOM$$",
+  "name": "GeoCaching.com"
+  },{
+  "url": "http://www.opencaching.de/map2.php?lat=$$LAT$$&lon=$$LON$$&zoom=$$ZOOM$$&map=OSM",
+  "name": "OpenCaching.de"
+  }
+]}
