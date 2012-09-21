@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>*Demo* Page: I Like OpenStreetMap aka I Like This OSM Map Section</title>
+	<meta name="description" content="Pascal Neis (neis-one.org)" />
+    <meta name="keywords" content="Pascal Neis (neis-one.org)" />
+
+    <meta name="robots" content="index,follow" />
+    <meta name="author" content="Pascal Neis" />
+    <meta name="revisit-After" content="7 days" />
+
+	<script src="http://openlayers.org/api/OpenLayers.js" type="text/javascript"></script>
+ 	<script src="http://ilike.openstreetmap.de/ILikeOSM.min.js" type="text/javascript"></script>
+ 	<!-- <script src="http://ilike.openstreetmap.de/ILikeOSM.js" type="text/javascript"></script> -->
+ 	
+ 	<link rel="Shortcut Icon" href="http://openstreetmap.de/img/favicon.png" type="image/png" />
+ 	
+ 	<style type="text/css">
+ 		div.olControlLayerSwitcher .layersDiv {padding-top: 5px;padding-left: 10px;padding-bottom: 5px;padding-right: 75px;background-color: #575757;width: 100%;height: 100%;}
+ 		div.olControlPermalink {right: 10px;bottom: 10px;display: block;position: absolute;font-size: smaller;font-size: 12px;font-family: sans-serif;}
+ 	</style> 
+ 	
+	<script type="text/javascript">
+		OpenLayers.ImgPath="http://www.openstreetmap.de/map_src/themes/dark/";
+		var map;
+        
+		function init()
+		{
+			//Check if the browser is a IE
+	        if (navigator.appName=="Microsoft Internet Explorer"){
+	        	document.getElementById("map").style.height = "90%";
+	        }
+	        //Get language of the browser
+	        var lang = "en";
+	        //FF, Opera, Safari ...
+	        if(navigator.language){
+		        if (navigator.language.indexOf("en") > -1) { lang = "en"; }
+		        else if (navigator.language.indexOf("de") > -1) { lang = "de"; }	
+	        }
+	        // IE
+	        else if(navigator.browserLanguage){
+	        	 if (navigator.browserLanguage.indexOf("en") > -1) { lang = "en"; }
+		        else if (navigator.browserLanguage.indexOf("de") > -1) { lang = "de"; }
+	        }
+	        
+			map = new OpenLayers.Map ("map", {
+				controls:[
+					new OpenLayers.Control.Navigation(),
+					new OpenLayers.Control.PanZoomBar(),
+					new OpenLayers.Control.LayerSwitcher({roundedCorner: true, roundedCornerColor: "#575757"}),
+					new OpenLayers.Control.Permalink(),
+					//Use Browser Language (so far "de" and "en" are avialable!)
+					new OpenLayers.ILikeOSM({defaultlanguage: lang})
+					// *Or* Add Your Own Language here!
+					//new OpenLayers.ILikeOSM({defaultlanguage: 'XY', languages : {'XY' : {'Like' : 'I like this map section!', 'DisLike' : 'I dislike this map section!', 'ThumbsText' : 'for this map section', 'CounterText' : 'and You watching a part of this map section', 'ShareText' : 'See where others surf the map", 'MessageText' : 'If you activate this feature, your current map view is sent to our server and stored in a database; in return, the server can tell you how many other people are looking at the same area. Data thus collected is made available to everyone in an anonymized form for statistical analysis, and helps us find out how the OSM map is used.', 'CheckboxYesText' : 'Yes, share my map view', 'CheckboxNoText' : 'No, thanks'} } })
+					],
+				maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+				maxResolution: 156543.0399,
+				numZoomLevels: 19,
+				units: 'm',
+				projection: new OpenLayers.Projection("EPSG:900913"),
+				displayProjection: new OpenLayers.Projection("EPSG:4326")
+			} );
+			map.addLayer(new OpenLayers.Layer.OSM("Mapnik"));
+ 			if (!map.getCenter()){
+ 				map.setCenter(new OpenLayers.LonLat(1200000, 6700000),6);
+ 			}
+		}
+	</script>
+	
+ 	<style type="text/css">
+ 		div.olILikeOSM { position: absolute; top: 15px; left: 50px; padding: 7px; color:white; border-radius: 10px; background: rgba(0, 0, 0, 0.6); } 
+ 		div.olILikeOSM a { color: white; font-size:12px; text-decoration: underline; }
+ 	</style> 
+	
+</head>
+ 
+<body onload="init();">
+<div id="map" style="position: absolute; top: 45px; right: 30px; bottom: 30px; left: 30px;"></div>
+
+<div class="headline" style="text-align:left;left:40px; top:13px; position:absolute;font-size:14px;font-weight: bold;font-family:Verdana;">*Demo* Page: <a href="./index.html">I Like OpenStreetMap</a> (OpenLayers Plugin) - SourceCode <a target="_blank" href="http://github.com/pa5cal/ILikeOpenStreetMap">github</a></div>
+<div class="copyright" style="text-align:right; right:40px; top:13px; position:absolute; font-size:9px; color:grey; font-family:Verdana;">Copyright &copy; 2012 Pascal Neis <a target="_blank" href="http://neis-one.org">(neis-one.org)</a> <br/> Map data <a target="_blank" href="http://creativecommons.org/licenses/by-sa/2.0/">CC-By-SA</a> <a target="_blank" href="http://www.openstreetmap.org">by OpenStreetMap</a> </div>
+
+</body>
+</html>
