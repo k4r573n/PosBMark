@@ -24,6 +24,8 @@ OpenLayers.ToolsMapLinks = OpenLayers.Class(OpenLayers.Control, {
 	* Property: defaultlanguage
 	*/
 	defaultlanguage: 'en',
+
+  urlList: {},
 	
 	/**
 	* Property: contentDiv
@@ -55,7 +57,17 @@ OpenLayers.ToolsMapLinks = OpenLayers.Class(OpenLayers.Control, {
 		OpenLayers.Control.prototype.initialize.apply(this, arguments);
 		//Languages / Div-Texts
 		this.languages.en = {MapLinks:"bla",ShowLinks:"Show Links to other Maps",LinkDesc:"to see this view on an other map use one off the following links"};
-		this.tools = {Links: OpenLayers.ToolsMapLinks.Links};
+    this.urlList = 
+      [
+        {
+        url: "http://coord.info/map?ll=$$LAT$$,$$LON$$&z=$$ZOOM$$",
+        name: "GeoCaching.com"
+        },{
+        url: "http://www.opencaching.de/map2.php?lat=$$LAT$$&lon=$$LON$$&zoom=$$ZOOM$$&map=OSM",
+        name: "OpenCaching.de"
+        }
+      ];
+		//this.tools = {Links: OpenLayers.ToolsMapLinks.Links};
     	
     },
     
@@ -193,14 +205,43 @@ OpenLayers.ToolsMapLinks = OpenLayers.Class(OpenLayers.Control, {
 			if(this.maplinkDivVisible){
 				var center = this.map.getCenter().transform(this.map.getProjection(),new OpenLayers.Projection("EPSG:4326"));
 				var extent = this.map.getExtent().transform(this.map.getProjection(),new OpenLayers.Projection("EPSG:4326"));
-				extent=extent.left.toFixed(6)+","+extent.bottom.toFixed(6)+","+extent.right.toFixed(6)+","+extent.top.toFixed(6);
+        var zoom = this.map.getZoom();
+				//extent=extent.left.toFixed(6)+","+extent.bottom.toFixed(6)+","+extent.right.toFixed(6)+","+extent.top.toFixed(6);
 
 				//for(var i=0 ; i<this.buttons.length ; i++){ this.buttons[i].style.display = ""; }
 				//this.maplinkDivContent.innerHTML = extent;
-				this.tools["Links"].draw(this.maplinkDivContent);
+				//this.tools["Links"].draw(this.maplinkDivContent);
+        newlist = this.correctLinks(this.urlList, parseFloat(extent.bottom.toFixed(6)), parseFloat(extent.top.toFixed(6)), 
+           parseFloat(extent.left.toFixed(6)), parseFloat(extent.right.toFixed(6)), 13, 14, zoom);
+        //element.innerhtml = this.toText(list2);
+        text = "";
+        //for (var i=0; i<newlist.length; i++)  
+				$.each(newlist, function(i, value) {
+					text += '<a href="'+value.url+'">'+value.name+'</a><br>';
+				});
+        this.maplinkDivContent.innerHTML = text;
 
 			}
 	},
+
+  correctLinks: function(rawlinks, minlat, maxlat, minlon, maxlon, mlat, mlon, zoom) {
+    lon = (minlon+maxlon)/2.0;
+    lat = (minlat+maxlat)/2.0;
+
+    $.each(rawlinks, function(index, value) {
+      newlink= value.url;
+      newlink = newlink.replace('$$LAT$$',lat);
+      newlink = newlink.replace('$$LON$$',lon);
+      newlink = newlink.replace('$$MLAT$$',mlat);
+      newlink = newlink.replace('$$MLON$$',mlon);
+      newlink = newlink.replace('$$ZOOM$$',zoom);
+      newlink = newlink.replace('$$ZOOM$$',zoom);
+      rawlinks[index] = {"url":newlink, "name":value.name};
+    });
+
+    return rawlinks;
+  },
+
 
     
     /**
