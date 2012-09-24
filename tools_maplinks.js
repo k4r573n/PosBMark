@@ -65,7 +65,17 @@ OpenLayers.ToolsMapLinks = OpenLayers.Class(OpenLayers.Control, {
         },{
         url: "http://www.opencaching.de/map2.php?lat=$$LAT$$&lon=$$LON$$&zoom=$$ZOOM$$&map=OSM",
         name: "OpenCaching.de"
+        },{
+        url: "http://www.bing.com/maps/?v=2&cp=$$LAT$$~$$LON$$&dir=0&sty=r&lvl=$$ZOOM$$",
+        name: "Bing map"
+        },{
+        url: "http://www.bing.com/maps/?v=2&cp=$$LAT$$~$$LON$$&dir=0&sty=h&lvl=$$ZOOM$$",
+        name: "Bing sat besriftung"
+        },{
+        url: "http://www.bing.com/maps/?cp=$$LAT$$~$$LON$$&sty=a&lvl=$$ZOOM$$",
+        name: "Bing sat ohne besriftung"
         }
+    
       ];
 		//this.tools = {Links: OpenLayers.ToolsMapLinks.Links};
     	
