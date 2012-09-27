@@ -61,19 +61,24 @@ OpenLayers.ToolsMapLinks = OpenLayers.Class(OpenLayers.Control, {
       [
         {
         url: "http://coord.info/map?ll=$$LAT$$,$$LON$$&z=$$ZOOM$$",
-        name: "GeoCaching.com"
+        name: "GeoCaching.com",
+        desc: "en"
         },{
         url: "http://www.opencaching.de/map2.php?lat=$$LAT$$&lon=$$LON$$&zoom=$$ZOOM$$&map=OSM",
-        name: "OpenCaching.de"
+        name: "OpenCaching.de",
+        desc: "en"
         },{
         url: "http://www.bing.com/maps/?v=2&cp=$$LAT$$~$$LON$$&dir=0&sty=r&lvl=$$ZOOM$$",
-        name: "Bing map"
+        name: "Bing map",
+        desc: "en"
         },{
         url: "http://www.bing.com/maps/?v=2&cp=$$LAT$$~$$LON$$&dir=0&sty=h&lvl=$$ZOOM$$",
-        name: "Bing sat besriftung"
+        name: "Bing sat besriftung",
+        desc: "en"
         },{
         url: "http://www.bing.com/maps/?cp=$$LAT$$~$$LON$$&sty=a&lvl=$$ZOOM$$",
-        name: "Bing sat ohne besriftung"
+        name: "Bing sat ohne besriftung",
+        desc: "en"
         }
     
       ];
@@ -216,25 +221,28 @@ OpenLayers.ToolsMapLinks = OpenLayers.Class(OpenLayers.Control, {
 				var center = this.map.getCenter().transform(this.map.getProjection(),new OpenLayers.Projection("EPSG:4326"));
 				var extent = this.map.getExtent().transform(this.map.getProjection(),new OpenLayers.Projection("EPSG:4326"));
         var zoom = this.map.getZoom();
+        console.log("zoom:"+zoom);
 				//extent=extent.left.toFixed(6)+","+extent.bottom.toFixed(6)+","+extent.right.toFixed(6)+","+extent.top.toFixed(6);
 
 				//for(var i=0 ; i<this.buttons.length ; i++){ this.buttons[i].style.display = ""; }
 				//this.maplinkDivContent.innerHTML = extent;
 				//this.tools["Links"].draw(this.maplinkDivContent);
-        newlist = this.correctLinks(this.urlList, parseFloat(extent.bottom.toFixed(6)), parseFloat(extent.top.toFixed(6)), 
+
+        var newlist = [];
+        this.correctLinks(this.urlList, newlist, parseFloat(extent.bottom.toFixed(6)), parseFloat(extent.top.toFixed(6)), 
            parseFloat(extent.left.toFixed(6)), parseFloat(extent.right.toFixed(6)), 13, 14, zoom);
         //element.innerhtml = this.toText(list2);
         text = "";
         //for (var i=0; i<newlist.length; i++)  
 				$.each(newlist, function(i, value) {
-					text += '<a href="'+value.url+'">'+value.name+'</a><br>';
+					text += '<a href="'+value.url+'" title="'+value.desc+'">'+value.name+'</a><br>';
 				});
         this.maplinkDivContent.innerHTML = text;
 
 			}
 	},
 
-  correctLinks: function(rawlinks, minlat, maxlat, minlon, maxlon, mlat, mlon, zoom) {
+  correctLinks: function(rawlinks, newlinks, minlat, maxlat, minlon, maxlon, mlat, mlon, zoom) {
     lon = (minlon+maxlon)/2.0;
     lat = (minlat+maxlat)/2.0;
 
@@ -245,11 +253,11 @@ OpenLayers.ToolsMapLinks = OpenLayers.Class(OpenLayers.Control, {
       newlink = newlink.replace('$$MLAT$$',mlat);
       newlink = newlink.replace('$$MLON$$',mlon);
       newlink = newlink.replace('$$ZOOM$$',zoom);
-      newlink = newlink.replace('$$ZOOM$$',zoom);
-      rawlinks[index] = {"url":newlink, "name":value.name};
+      //newlink = newlink.replace('$$ZOOM$$',zoom);
+      newlinks[index] = {"url":newlink, "name":value.name};
     });
 
-    return rawlinks;
+    return newlinks;
   },
 
 
