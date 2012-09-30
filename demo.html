@@ -12,7 +12,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="http://openlayers.org/api/OpenLayers.js" type="text/javascript"></script>
   <!--<script src="http://ilike.openstreetmap.de/ILikeOSM.min.js" type="text/javascript"></script>-->
- 	<script src="tools_maplinks.js" type="text/javascript"></script>
+ 	<script src="tools_posbmark.js" type="text/javascript"></script>
  	<!-- <script src="http://ilike.openstreetmap.de/ILikeOSM.js" type="text/javascript"></script> -->
  	
  	<link rel="Shortcut Icon" href="http://openstreetmap.de/img/favicon.png" type="image/png" />
@@ -53,7 +53,7 @@
 					new OpenLayers.Control.Permalink(),
 					//Use Browser Language (so far "de" and "en" are avialable!)
 					//new OpenLayers.ILikeOSM({defaultlanguage: lang})
-					new OpenLayers.ToolsMapLinks({defaultlanguage: lang})
+					new OpenLayers.ToolsPosBMark({defaultlanguage: lang})
 					// *Or* Add Your Own Language here!
 					//new OpenLayers.ILikeOSM({defaultlanguage: 'XY', languages : {'XY' : {'Like' : 'I like this map section!', 'DisLike' : 'I dislike this map section!', 'ThumbsText' : 'for this map section', 'CounterText' : 'and You watching a part of this map section', 'ShareText' : 'See where others surf the map", 'MessageText' : 'If you activate this feature, your current map view is sent to our server and stored in a database; in return, the server can tell you how many other people are looking at the same area. Data thus collected is made available to everyone in an anonymized form for statistical analysis, and helps us find out how the OSM map is used.', 'CheckboxYesText' : 'Yes, share my map view', 'CheckboxNoText' : 'No, thanks'} } })
 					],
@@ -72,10 +72,8 @@
 	</script>
 	
  	<style type="text/css">
- 		div.olToolsMapLinks { position: absolute; top: 15px; left: 50px; min-width:30px; min-height:30px; padding: 7px; color:white; border-radius: 10px; background: rgba(0, 0, 0, 0.6); } 
- 		div.olToolsMapLinks a { color: white; font-size:12px; text-decoration: underline; }
- 		div.olILikeOSM { position: absolute; top: 15px; left: 50px; padding: 7px; color:white; border-radius: 10px; background: rgba(0, 0, 0, 0.6); } 
- 		div.olILikeOSM a { color: white; font-size:12px; text-decoration: underline; }
+ 		div.olToolsPosBMark { position: absolute; top: 15px; left: 50px; min-width:76px; min-height:28px; padding: 7px; color:white; border-radius: 10px; background: rgba(0, 0, 0, 0.6); } 
+ 		div.olToolsPosBMark a { color: white; font-size:12px; text-decoration: underline; }
  	</style> 
 	
 </head>
@@ -83,8 +81,8 @@
 <body onload="init();">
 <div id="map" style="position: absolute; top: 45px; right: 30px; bottom: 30px; left: 30px;"></div>
 
-<div class="headline" style="text-align:left;left:40px; top:13px; position:absolute;font-size:14px;font-weight: bold;font-family:Verdana;">*Demo* Page: <a href="./index.html">I Like OpenStreetMap</a> (OpenLayers Plugin) - SourceCode <a target="_blank" href="http://github.com/pa5cal/ILikeOpenStreetMap">github</a></div>
-<div class="copyright" style="text-align:right; right:40px; top:13px; position:absolute; font-size:9px; color:grey; font-family:Verdana;">Copyright &copy; 2012 Pascal Neis <a target="_blank" href="http://neis-one.org">(neis-one.org)</a> <br/> Map data <a target="_blank" href="http://creativecommons.org/licenses/by-sa/2.0/">CC-By-SA</a> <a target="_blank" href="http://www.openstreetmap.org">by OpenStreetMap</a> </div>
+<div class="headline" style="text-align:left;left:40px; top:13px; position:absolute;font-size:14px;font-weight: bold;font-family:Verdana;">Demonstration Page for <a href="./index.html">MapTools PosBMarks</a> (OpenLayers Plugin) - SourceCode <a target="_blank" href="http://github.com/k4r573n/ToolsPosBMark">github</a></div>
+<div class="copyright" style="text-align:right; right:40px; top:13px; position:absolute; font-size:9px; color:grey; font-family:Verdana;">Developped 2012 by Karsten Hinz with help of the Code from Pascal Neis (<a target="_blank" href="http://github.com/pa5cal/ILikeOpenStreetMap">ILikeOpenStreetMap</a>) <br/> Map data <a target="_blank" href="http://creativecommons.org/licenses/by-sa/2.0/">CC-By-SA</a> <a target="_blank" href="http://www.openstreetmap.org">by OpenStreetMap</a> </div>
 
 </body>
 </html>
