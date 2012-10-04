@@ -1,0 +1,26 @@
+Position Bookmark (PosBMark)
+****************************
+october 2012 by Karsten Hinz <k.hinz (Ät} tu-bs.de>
+
+this is an Plugin for Openlayers to find fast back to saved locations
+
+TODO:
+****
+- Posiblity to delete Modify each single entry
+
+BUGS:
+****
+- when links are deleted and directly a new added, Reapear the old ones.
+
+THANKS TO:
+**********
+- Pascal Neis 
+  who inspired me with his "I Like OSM" Openlayers Plugin which is the base for this Project
+  http://github.com/pa5cal/ILikeOpenStreetMap
+- Openlayers
+  which Provides the Map usage and lots more
+  http://www.openlayers.org
+- Tango Icon Libary
+  I used for the 3 Icons
+  http://tango.freedesktop.org/Tango_Icon_Library
+
