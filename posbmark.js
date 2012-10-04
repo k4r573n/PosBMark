@@ -90,8 +90,8 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
       this.languages.de = {
         BtnShow:"gespeicherte Positionen anzeigen", 
         BtnAdd:"aktuelle Ansicht speichern", 
-        BtnClear:"alle Einträge löschen",
-        LinkDesc:"um zu den Kartenansichten zu wechseln, stehen die folgenden Links zur Verfügung",
+        BtnClear:"alle Eintr&auml;ge l&ouml;schen",
+        LinkDesc:"um zu den Kartenansichten zu wechseln, stehen die folgenden Links zur Verf&uuml;gung",
         AddViewHeadline:"Diese Ansicht Speichern",
         NameOfView:"Name dieser Ansicht",
         DescOfView:"Beschreibung dieser Ansicht",
