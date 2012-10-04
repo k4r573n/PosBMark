@@ -13,9 +13,9 @@
 
 /**
 * Class: OpenLayers.ToolsPosBMark
-* Version 1.0 - October 1st, 2012
+* Version 1.0 - October 3rd, 2012
 * By default it is drawn next to the PanZoomBar. 
-* The text is updated as the map is zoomed or panned.
+* The text is updated as a link is added or deleted
 */
 OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 	/**
@@ -76,7 +76,28 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
     initialize: function(element) {
       OpenLayers.Control.prototype.initialize.apply(this, arguments);
       //Languages / Div-Texts
-      this.languages.en = {PosBMark:"show Tool", PosBMark_add:"add current view", PosBMark_clear:"delete all saved Views", ShowLinks:"Show Links to Map Positions", LinkDesc:"to see saved map views use one off the following links", DescOfView:"Describtion of this MapView", NameOfView:"Name of this View", AddViewHeadline:"Save this View", save:"Save",cancel:"Cancel",noLinksMsg:"&gt;there are currently no saved Views&lt;"};
+      this.languages.en = {
+        BtnShow:"show saved positions", 
+        BtnAdd:"add current view", 
+        BtnClear:"delete all saved views",
+        LinkDesc:"to see saved map views use one off the following links",
+        AddViewHeadline:"Save this View",
+        NameOfView:"Name of this View",
+        DescOfView:"Describtion of this MapView",
+        save:"Save",
+        noLinksMsg:"&gt;there are currently no saved Views&lt;"
+      };
+      this.languages.de = {
+        BtnShow:"gespeicherte Positionen anzeigen", 
+        BtnAdd:"aktuelle Ansicht speichern", 
+        BtnClear:"alle Einträge löschen",
+        LinkDesc:"um zu den Kartenansichten zu wechseln, stehen die folgenden Links zur Verfügung",
+        AddViewHeadline:"Diese Ansicht Speichern",
+        NameOfView:"Name dieser Ansicht",
+        DescOfView:"Beschreibung dieser Ansicht",
+        save:"Speichern",
+        noLinksMsg:"&gt; zur Zeit sind noch keine Ansichten gespeichert &lt;"
+      };
 
       if(typeof(Storage)!=="undefined")
       { //supported read links
@@ -100,7 +121,6 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
             bmarkList = new Array();
             console.log("nichts gespeichert!");
           }
-        //alert("storage geht - "+localStorage.usecount + " Mal aufgerufen");
       }else{
         //use only online storage
         alert("Localstorage is not supported that means this Plugin is not usable");
@@ -167,11 +187,11 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
         OpenLayers.Element.addClass(this.toolIconDiv, "toolIconDiv");
         this.buttons = [];
         var sz = {w: 24, h: 24};
-				var px = new OpenLayers.Pixel(5,5);
+				var px = new OpenLayers.Pixel(5,8);
 				//ein LinkIcon verlinken
-        this._addButton("PosBMark", "http://ilike.openstreetmap.de/img/Like.png", px, sz);
-        this._addButton("PosBMark_add", "http://ilike.openstreetmap.de/img/Like.png", px.add(sz.w+2, 0), sz);
-        this._addButton("PosBMark_clear", "http://ilike.openstreetmap.de/img/Like.png", px.add(sz.w*2+4, 0), sz);
+        this._addButton("BtnShow", "https://dl.dropbox.com/u/2888108/icons/format-justify-fill.png", px, sz);
+        this._addButton("BtnAdd", "https://dl.dropbox.com/u/2888108/icons/document-save.png", px.add(sz.w+2, 0), sz);
+        this._addButton("BtnClear", "https://dl.dropbox.com/u/2888108/icons/user-trash.png", px.add(sz.w*2+4, 0), sz);
 
 				//update the text and especially the links
 				this.maplinkDiv = document.createElement("div");
@@ -185,7 +205,7 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 				this.maplinkDiv.style.fontWeight = "bold";
 				this.maplinkDiv.style.fontFamily = "Verdana";
 				this.maplinkDiv.innerHTML = this.getTextForMapTools('LinkDesc');
-				//TODO: add also the links here
+
 				this.maplinkDivContent = document.createElement("div");
 				this.maplinkDivContent.id = this.id + "_maplinkDivContent";
 
@@ -230,16 +250,16 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
     onButtonClick: function(evt) {
         var btn = evt.buttonElement;
         switch (btn.action) {
-            case "PosBMark":
+            case "BtnShow":
                 //show the link List
                 this.toggleView();
                 break;
-            case "PosBMark_add":
+            case "BtnAdd":
                 //save current view
                 this.getViewDetails(this.addView, this);
                 break;
-            case "PosBMark_clear":
-                //clears the views (BUG somewhere here)
+            case "BtnClear":
+                //clears the views (BUG somewhere in here?!)
                 this.bmarkList = new Array();
                 localStorage.removeItem('PosBMarks');
                 this.drawPosBMarks(this.maplinkDivContent);
@@ -252,12 +272,10 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
         console.log("Toggle view of control element");
         if (this.maplinkDivVisible) {
           this.maplinkDivVisible = false;
-          //this.maplinkDiv.style.height = "600px";
           this.maplinkDiv.style.display = "none";
         } else {
           this.maplinkDivVisible = true;
           this.maplinkDiv.style.display = "";
-          //this.maplinkDiv.style.height = "300px";
         }
     },
 
@@ -294,10 +312,12 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 
 
     /**
-	* Method: addView
-	*
-	* Parameters:
-	*/
+    * Method: addView
+    *
+    * Parameters:
+    * details - {HTML Form}
+    * ToolsPosBMark - {Class ToolsPosBMark}
+    */
 		addView: function(details, ToolsPosBMark) { 
       console.log("Add the current view to Bookmarks");
       //console.log("Details: %o",details);
@@ -330,8 +350,8 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 	
     
     /**
-	* Method: getTextForMapTools
-	*/
+    * Method: getTextForMapTools
+    */
     getTextForMapTools: function(parameter){
     	var lang = this.defaultlanguage;
     	if(this.languages[lang]){
@@ -342,35 +362,6 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
     	return this.languages[lang][parameter];
     },
     
-    /**
-	* Method: sendRequest
-	*/
-//    sendRequest: function(status, callback, iLikeOSM){
-//    	if(this.map.getCenter()){
-//    		//Check the time of the last request
-//    		var now = new Date().getTime();
-//    		if(this.lastQueryTimeStamp != null && this.lastQueryTimeStamp > (now - 2000) && status == "watch"){
-//    			return;
-//    		}else {
-//    			this.lastQueryTimeStamp = now;
-//    		}
-//    		
-//			var center = this.map.getCenter().transform(this.map.getProjection(),new OpenLayers.Projection("EPSG:4326"));
-//			var extent = this.map.getExtent().transform(this.map.getProjection(),new OpenLayers.Projection("EPSG:4326"));
-//			extent=extent.left.toFixed(6)+","+extent.bottom.toFixed(6)+","+extent.right.toFixed(6)+","+extent.top.toFixed(6);
-//			OpenLayers.ILikeOSM.callbackServerRequest = function(response) { callback(response, iLikeOSM); };
-//			
-//			// clean DOM
-//			var jsonp = document.getElementById('jsonp');
-//			if(jsonp){ document.body.removeChild(jsonp); }
-//			var jsonp = document.createElement('script');
-//			jsonp.type = 'text/javascript';
-//			jsonp.id='jsonp';
-//			jsonp.src = "http://ilike.openstreetmap.de/query.php?uuid="+this.uuid+"&status="+status+"&map="+encodeURIComponent(this.map.baseLayer.name)+"&zoom="+this.map.getZoom()+"&extent="+extent+"&jsonp=OpenLayers.ILikeOSM.callbackServerRequest";
-//			document.body.appendChild(jsonp);
-//    	}
-//    },
-        
     CLASS_NAME: "OpenLayers.ToolsPosBMark"
 });
 
