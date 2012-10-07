@@ -127,6 +127,29 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
       }
 
     },
+
+    /**
+     * APIMethod: destroy 
+     */    
+    destroy: function() {
+      //TODO: check and write it
+        
+//        //clear out layers info and unregister their events 
+//        this.clearLayersArray("base");
+//        this.clearLayersArray("data");
+//        
+//        this.map.events.un({
+//            buttonclick: this.onButtonClick,
+//            addlayer: this.redraw,
+//            changelayer: this.redraw,
+//            removelayer: this.redraw,
+//            changebaselayer: this.redraw,
+//            scope: this
+//        });
+//        this.events.unregister("buttonclick", this, this.onButtonClick);
+//        
+//        OpenLayers.Control.prototype.destroy.apply(this, arguments);
+    },
     
     /**
 	* Method: setMap
@@ -151,18 +174,29 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 	* Parameters:
 	* element - {DOMElement}
 	*/
-  drawPosBMarks: function(element) {
+  drawPosBMarks: function(element,PosBMark) {
     console.log("drawPosBMarks");
-    var text = "";
+    //var rmImg = OpenLayers.Util.getImageLocation('remove.png');
     if (localStorage.PosBMarks) {
       console.log("content is there");
-      $.each(bmarkList, function(index, value) {
-        var link = '<a title="'+value.desc+'" href="'+ '//' + location.host + location.pathname 
-          +'?lat='+value.lat+'&lon='+value.lon+'&zoom='+value.zoom+'">'+value.name+'</a>';
-        text += link+"<br>";
+      $.each(bmarkList, function(index, value) {   //use index to Identify the link
+        //list entry
+        var entry = document.createElement("div");
+        OpenLayers.Element.addClass(entry, "ListEntry");
+
+        PosBMark._addButton("BtnClearEntry;"+index, entry, "https://dl.dropbox.com/u/2888108/icons/user-trash.png", null, null);
+
+        var linkDiv = document.createElement("div");
+        linkDiv.style.margin = "3px 3px 3px 30px";
+        OpenLayers.Element.addClass(linkDiv, "linkDiv");
+        linkDiv.innerHTML = '<a title="'+value.desc+'" href="'+ '//' + location.host + location.pathname 
+          +'?lat='+value.lat+'&lon='+value.lon+'&zoom='+value.zoom+'">'+value.name+'</a><br>';
+
+        entry.appendChild(linkDiv);
+        element.appendChild(entry);
+
       });
 
-      element.innerHTML=text;
     }else {
       console.log("There is nothing saved!");
       element.innerHTML=this.getTextForMapTools('noLinksMsg');
@@ -189,9 +223,9 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
         var sz = {w: 24, h: 24};
 				var px = new OpenLayers.Pixel(5,8);
 				//ein LinkIcon verlinken
-        this._addButton("BtnShow", "https://dl.dropbox.com/u/2888108/icons/format-justify-fill.png", px, sz);
-        this._addButton("BtnAdd", "https://dl.dropbox.com/u/2888108/icons/document-save.png", px.add(sz.w+2, 0), sz);
-        this._addButton("BtnClear", "https://dl.dropbox.com/u/2888108/icons/user-trash.png", px.add(sz.w*2+4, 0), sz);
+        this._addButton("BtnShow", this.toolIconDiv, "https://dl.dropbox.com/u/2888108/icons/format-justify-fill.png", px, sz);
+        this._addButton("BtnAdd", this.toolIconDiv, "https://dl.dropbox.com/u/2888108/icons/document-save.png", px.add(sz.w+2, 0), sz);
+        this._addButton("BtnClear", this.toolIconDiv, "https://dl.dropbox.com/u/2888108/icons/user-trash.png", px.add(sz.w*2+4, 0), sz);
 
 				//update the text and especially the links
 				this.maplinkDiv = document.createElement("div");
@@ -219,19 +253,19 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 				this.div.appendChild(this.toolIconDiv);
         
         //this.onMapAction();
-        this.drawPosBMarks(this.maplinkDivContent);
+        this.drawPosBMarks(this.maplinkDivContent,this);
                 
         return this.div; 
     },
     
-    _addButton:function(id, img, xy, sz) {
+    _addButton:function(id, parent, img, xy, sz) {
         var imgLocation = img;//OpenLayers.Util.getImageLocation(img);
         var btn = OpenLayers.Util.createAlphaImageDiv(
                                     this.id + "_" + id,
                                     xy, sz, imgLocation, "absolute");
         btn.style.cursor = "pointer";
         //we want to add the outer div
-        this.toolIconDiv.appendChild(btn);
+        parent.appendChild(btn);
         btn.action = id;
         btn.className = "olButton";
 				btn.title = this.getTextForMapTools(id);
@@ -249,7 +283,8 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 	*/
     onButtonClick: function(evt) {
         var btn = evt.buttonElement;
-        switch (btn.action) {
+        console.log(btn.action);
+        switch (btn.action.split(';')[0]) {
             case "BtnShow":
                 //show the link List
                 this.toggleView();
@@ -262,8 +297,12 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
                 //clears the views (BUG somewhere in here?!)
                 this.bmarkList = new Array();
                 localStorage.removeItem('PosBMarks');
-                this.drawPosBMarks(this.maplinkDivContent);
+                this.drawPosBMarks(this.maplinkDivContent,this);
                 console.log("Delete all Links");
+                break;
+            case "BtnClearEntry":
+                console.log("clear entry - TODO");
+                //TODO
                 break;
         }
     },
@@ -345,7 +384,7 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
         ToolsPosBMark.map.removePopup(ToolsPosBMark.sharePopUp);
       }
 
-      ToolsPosBMark.drawPosBMarks(ToolsPosBMark.maplinkDivContent);
+      ToolsPosBMark.drawPosBMarks(ToolsPosBMark.maplinkDivContent,ToolsPosBMark);
     },
 	
     
