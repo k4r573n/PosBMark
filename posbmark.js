@@ -249,6 +249,16 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 		return this.div;
 	},
 
+	/**
+	 * Method: onButtonClick
+	 *
+	 * Parameters:
+	 * id
+	 * parent {HTML obj}
+	 * img - {url}
+	 * xy
+	 * sz
+	 */
 	_addButton : function(id, parent, img, xy, sz) {
 		var imgLocation = img;
 		//OpenLayers.Util.getImageLocation(img);
@@ -359,7 +369,7 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 		OpenLayers.ToolsPosBMark.callbackShareMapView = function(response) {
 			callback(response, ToolsPosBMark)
 		};
-		this.sharePopUp = new OpenLayers.Popup("MapTools PosBMark", lonlat, sz, "<form><span style=\"font-family:Verdana; font-size: 12px;\"><b>" + this.getTextForMapTools('AddViewHeadline') + "</b><br/><br/>" + "<span style=\"font-size: 10px;\"><b>Lat: " + center.lat.toFixed(6) + " Lon: " + center.lon.toFixed(6) + " Zoom: " + zoom + "</b></span></br></br>" + this.getTextForMapTools('NameOfView') + "<br/>" + "<INPUT type=\"text\" name=\"name\" size=\"32\"></br>" + this.getTextForMapTools('DescOfView') + "<br/>" + "<textarea  name=\"desc\" cols=\"40\" rows=\"4\"></textarea>" + "<INPUT type=\"button\" value=\"" + this.getTextForMapTools('save') + "\" onClick=\"OpenLayers.ToolsPosBMark.callbackShareMapView(this.form); return false;\" name=\"buttonYes\"> </span></form>", true);
+		this.sharePopUp = new OpenLayers.Popup("MapTools PosBMark", lonlat, sz, "<form><span style=\"font-family:Verdana; font-size: 12px;\"><b>" + this.getTextForMapTools('AddViewHeadline') + "</b><br/><br/>" + "<span style=\"font-size: 10px;\"><b>Lat: " + center.lat.toFixed(6) + " Lon: " + center.lon.toFixed(6) + " Zoom: " + zoom + "</b></span></br></br>" + this.getTextForMapTools('NameOfView') + "<br/>" + "<INPUT type=\"text\" name=\"name\" size=\"32\"></br>" + this.getTextForMapTools('DescOfView') + "<br/>" + "<textarea  name=\"desc\" cols=\"40\" rows=\"4\"></textarea>" + "<INPUT type=\"submit\" value=\"" + this.getTextForMapTools('save') + "\" onClick=\"OpenLayers.ToolsPosBMark.callbackShareMapView(this.form); return false;\" name=\"buttonYes\"> </span></form>", true);
 		this.map.addPopup(this.sharePopUp);
 	},
 
