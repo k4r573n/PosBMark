@@ -2,17 +2,14 @@ Position Bookmark (PosBMark)
 ****************************
 october 2012 by Karsten Hinz <k.hinz (Ät} tu-bs.de>
 
-this is an Plugin for Openlayers to find fast back to saved locations
-to try and lern you can use this Demo:
+this is an Plugin for Openlayers to save/load links to locations on a map
+to try and learn you can use this Demo:
 https://dl.dropbox.com/u/2888108/PosBMark/demo.html
 
 TODO:
 ****
-- Posiblity to delete Modify each single entry
+- online sync
 
-BUGS:
-****
-- when links are deleted and directly a new added, Reapear the old ones.
 
 THANKS TO:
 **********
