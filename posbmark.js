@@ -27,6 +27,8 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 	 */
 	defaultlanguage : 'en',
 
+  imgDir : 'http://k4r573n.github.com/PosBMark/images/',
+
 	/**
 	 * Property: bmarkList
 	 */
@@ -176,7 +178,7 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 				var entry = document.createElement("div");
 				OpenLayers.Element.addClass(entry, "ListEntry");
 
-				PosBMark._addButton("BtnClearEntry;" + index, entry, "https://dl.dropbox.com/u/2888108/icons/user-trash.png", null, null);
+				PosBMark._addButton("BtnClearEntry;" + index, entry, PosBMark.imgDir+"user-trash.png", null, null);
 
 				var linkDiv = document.createElement("div");
 				linkDiv.style.margin = "3px 3px 3px 30px";
@@ -215,9 +217,9 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 		};
 		var px = new OpenLayers.Pixel(5, 8);
 		//ein LinkIcon verlinken
-		this._addButton("BtnShow", this.toolIconDiv, "https://dl.dropbox.com/u/2888108/icons/format-justify-fill.png", px, sz);
-		this._addButton("BtnAdd", this.toolIconDiv, "https://dl.dropbox.com/u/2888108/icons/document-save.png", px.add(sz.w + 2, 0), sz);
-		this._addButton("BtnClear", this.toolIconDiv, "https://dl.dropbox.com/u/2888108/icons/user-trash.png", px.add(sz.w * 2 + 4, 0), sz);
+		this._addButton("BtnShow", this.toolIconDiv, this.imgDir+"format-justify-fill.png", px, sz);
+		this._addButton("BtnAdd", this.toolIconDiv, this.imgDir+"document-save.png", px.add(sz.w + 2, 0), sz);
+		this._addButton("BtnClear", this.toolIconDiv, this.imgDir+"user-trash.png", px.add(sz.w * 2 + 4, 0), sz);
 
 		//update the text and especially the links
 		this.maplinkDiv = document.createElement("div");
