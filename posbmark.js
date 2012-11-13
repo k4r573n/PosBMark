@@ -178,7 +178,7 @@ OpenLayers.ToolsPosBMark = OpenLayers.Class(OpenLayers.Control, {
 				var entry = document.createElement("div");
 				OpenLayers.Element.addClass(entry, "ListEntry");
 
-				PosBMark._addButton("BtnClearEntry;" + index, entry, this.imgDir+"user-trash.png", null, null);
+				PosBMark._addButton("BtnClearEntry;" + index, entry, PosBMark.imgDir+"user-trash.png", null, null);
 
 				var linkDiv = document.createElement("div");
 				linkDiv.style.margin = "3px 3px 3px 30px";
